@@ -5,7 +5,7 @@ import { decodeUserFromToken } from '../middleware/auth.js'
 const router = Router()
 
 /*---------- Public Routes ----------*/
-router.get('/', notesCtrl.index)
+router.get('/', postsCtrl.index)
 
 
 
