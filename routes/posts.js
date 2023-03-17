@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import * as postsCtrl from '../controllers/posts.js'
-import { decodeUserFromToken } from '../middleware/auth.js'
+import { checkAuth, decodeUserFromToken } from '../middleware/auth.js'
 
 const router = Router()
 
@@ -11,6 +11,7 @@ router.get('/', postsCtrl.index)
 
 /*---------- Protected Routes ----------*/
 router.use(decodeUserFromToken)
+router.post('/', checkAuth, postsCtrl.create)
 
 
 export { router }
