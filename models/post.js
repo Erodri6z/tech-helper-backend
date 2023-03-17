@@ -12,6 +12,7 @@ const commentSchema = new Schema ({
 const postSchema = new Schema({
   question: String,
   elaboration: String,
+  os: String,
   comment: [commentSchema],
   poster: {type: Schema.Types.ObjectId, ref: 'Profile'}
 })

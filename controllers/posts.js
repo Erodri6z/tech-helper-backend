@@ -13,6 +13,23 @@ function index(req, res) {
   })
 }
 
+function create(req, res){
+  req.body.poster = req.user.profile
+  Post.create(req.body)
+  .then(post => {
+    Post.findById(post.id)
+    .populate('poster')
+    .then(popPost => {
+      res.json(popPost)
+    })
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json(err)
+  })
+}
+
 export {
-  index
+  index,
+  create
 }
