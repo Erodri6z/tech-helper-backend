@@ -29,7 +29,19 @@ function create(req, res){
   })
 }
 
+function show(req, res) {
+  Post.findById(req.params.id)
+  .then(p => 
+    res.json(p)
+  )
+  .catch(err => {
+    console.log(err)
+      res.status(500).json(err)
+  })
+}
+
 export {
   index,
-  create
+  create,
+  show
 }
