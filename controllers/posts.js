@@ -61,5 +61,6 @@ function deletePost(req, res){
 export {
   index,
   create,
-  show
+  show,
+  deletePost as delete
 }
