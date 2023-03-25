@@ -40,6 +40,24 @@ function show(req, res) {
   })
 }
 
+function deletePost(req, res){
+  Post.findById(req.params.id)
+  .then(post => {
+    if(post.poster._id.equals(req.user.profile)){
+      Post.findByIdAndDelete(req.params.id)
+      .then(delPost => 
+        res.json(delPost)
+      )
+    }else{
+      res.status(401).json({err : "this isn't your post, buddy!"})
+    }
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json(err)
+  })
+}
+
 export {
   index,
   create,
