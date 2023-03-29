@@ -56,11 +56,24 @@ function deletePost(req, res){
     console.log(err)
       res.status(500).json(err)
   })
+  
+}
+
+function edit(req, res) {
+  Post.findByIdAndUpdate(req.params.id, req.body, {new:true})
+  .then(updatedPost => {
+    res.json(updatedPost)
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json(err)
+  })
 }
 
 export {
   index,
   create,
   show,
-  deletePost as delete
+  deletePost as delete,
+  edit
 }
