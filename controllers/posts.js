@@ -70,10 +70,27 @@ function edit(req, res) {
   })
 }
 
+function createComment(req, res) {
+  Post.findById(req.param.id)
+  .then(post => {
+    req.body.author = req.user.profile
+    post.comment.push(req.body)
+    post.save()
+    .then(() => {
+      res.redirect('/post')
+    })
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json(err)
+  })
+}
+
 export {
   index,
   create,
   show,
   deletePost as delete,
-  edit
+  edit,
+  createComment
 }
