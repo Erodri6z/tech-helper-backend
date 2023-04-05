@@ -72,9 +72,9 @@ function edit(req, res) {
 }
 
 function createComment(req, res) {
+  req.body.author = req.user.profile
   Post.findById(req.params.id)
   .then(post => {
-    console.log(`This is the post ${post.comment}`)
     post.comment.push(req.body)
     post.save()
     .then(() => {
