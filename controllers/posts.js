@@ -31,6 +31,7 @@ function create(req, res){
 
 function show(req, res) {
   Post.findById(req.params.id)
+  .populate('comment')
   .then(p => 
     res.json(p)
   )
@@ -71,13 +72,13 @@ function edit(req, res) {
 }
 
 function createComment(req, res) {
-  Post.findById(req.param.id)
+  Post.findById(req.params.id)
   .then(post => {
-    req.body.author = req.user.profile
+    console.log(`This is the post ${post.comment}`)
     post.comment.push(req.body)
     post.save()
     .then(() => {
-      res.redirect('/post')
+      res.json(post)
     })
   })
   .catch(err => {
