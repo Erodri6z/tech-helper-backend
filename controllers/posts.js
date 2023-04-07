@@ -32,6 +32,7 @@ function create(req, res){
 function show(req, res) {
   Post.findById(req.params.id)
   .populate('comment')
+  .populate('comment.author')
   .then(p => 
     res.json(p)
   )
@@ -75,6 +76,7 @@ function createComment(req, res) {
   req.body.author = req.user.profile
   Post.findById(req.params.id)
   .then(post => {
+    post.comment.populate('author')
     post.comment.push(req.body)
     post.save()
     .then(() => {
