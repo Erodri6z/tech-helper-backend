@@ -115,5 +115,6 @@ export {
   show,
   deletePost as delete,
   edit,
-  createComment
+  createComment,
+  deleteComment
 }
