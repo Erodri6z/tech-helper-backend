@@ -31,6 +31,7 @@ function create(req, res){
 
 function show(req, res) {
   Post.findById(req.params.id)
+  .populate('poster')
   .populate('comment')
   .populate('comment.author')
   .then(p => 
@@ -76,12 +77,31 @@ function createComment(req, res) {
   req.body.author = req.user.profile
   Post.findById(req.params.id)
   .then(post => {
-    post.comment.populate('author')
     post.comment.push(req.body)
     post.save()
     .then(() => {
       res.json(post)
     })
+  })
+  .catch(err => {
+    console.log(err)
+      res.status(500).json(err)
+  })
+}
+
+function deleteComment(req, res) {
+  Post.findById(req.params.id)
+  .populate('comment')
+  .then(post => {
+    console.log(post)
+    if(post.poster._id.equals(req.user.profile)){
+      post.comment.remove({_id: req.params.commentId})
+      post.save()
+      .then(delComment => {
+        console.log(delComment)
+        res.json(post)
+      })
+    }
   })
   .catch(err => {
     console.log(err)
