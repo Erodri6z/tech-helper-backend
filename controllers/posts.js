@@ -3,6 +3,7 @@ import { Post } from '../models/post.js'
 function index(req, res) {
   Post.find({})
   .populate('poster')
+  .populate('comment')
   .then(posts =>
     res.json(posts)
   )
@@ -81,6 +82,7 @@ function createComment(req, res) {
     post.save()
     .then(() => {
       res.json(post)
+      console.log(post)
     })
   })
   .catch(err => {
@@ -93,13 +95,11 @@ function deleteComment(req, res) {
   Post.findById(req.params.id)
   .populate('comment')
   .then(post => {
-    console.log(post)
     if(post.poster._id.equals(req.user.profile)){
       post.comment.remove({_id: req.params.commentId})
       post.save()
-      .then(delComment => {
-        console.log(delComment)
-        res.json(post)
+      .then(updatedPost => {
+        res.json(updatedPost)
       })
     }
   })
